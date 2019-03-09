@@ -15,8 +15,8 @@ export default function(p) {
         w = p.max(window.innerWidth);
         h = p.max(window.innerHeight);
         p.createCanvas(w, h);
-        p.frameRate(120);
-        pFields = Array(10).fill(1).map(x => new ParticleField(getRandomInt(5,10),getRandomInt(-window.innerWidth,window.innerWidth),0));
+        p.frameRate(60);
+        pFields = Array(10).fill(1).map(x => new ParticleField(10,getRandomInt(-window.innerWidth,window.innerWidth),0));
 
         mic = new p5.AudioIn();
         mic.start();
@@ -24,14 +24,13 @@ export default function(p) {
 
     p.draw = function() {
         p.background(255);
-        // p.noCursor();
-
+        p.noCursor();
 
         micLevel = mic.getLevel()*-10000;
 
-        if(micLevel < -150) {
+        if(micLevel < -250) {
             if(pFields.length < 50){
-                pFields.push(new ParticleField(getRandomInt(5,10),getRandomInt(-window.innerWidth,window.innerWidth),0));
+                pFields.push(new ParticleField(10,getRandomInt(-window.innerWidth,window.innerWidth),0));
             }
         }
 
@@ -68,10 +67,16 @@ export default function(p) {
         pFields.map(x => {
             x.yOffset = micLevel;
             x.update();
-            x.draw();
-            return;
+            return x.draw();
         });
+
+        let cursor = new Particle(p.mouseX, p.mouseY);
+        cursor.hasEyes = true;
+        cursor.draw();
     };
+
+    p.mouseMoved = function(){ p.getAudioContext().resume() };
+
 
     let ParticleField = function(numParticles, xOffset=0, yOffset=0) {
         this.yOffset = yOffset;
@@ -82,6 +87,7 @@ export default function(p) {
                 p.fill(255-(i*(255/numParticles)),255,(i*(255/numParticles)),(i*(255/numParticles)));
                 x.hasEyes = i === this.particles.length-1;
                 x.hasEyes === true ? p.stroke(200) : p.noStroke();
+                x.eyeOffset = 4;
                 return x.draw();
             })
         };
@@ -96,8 +102,9 @@ export default function(p) {
         this.locY = y;
         this.size = size;
         this.hasEyes = false;
-        let leftOffset = getRandomInt(5,20);
-        let rightOffset = getRandomInt(5,20);
+        this.eyeOffset = null;
+        let leftOffset = this.eyeOffset || getRandomInt(5,20);
+        let rightOffset = this.eyeOffset || getRandomInt(5,20);
 
         this.draw = function(){
             p.ellipse(this.locX, this.locY, this.size, this.size+30);
