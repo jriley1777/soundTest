@@ -87,7 +87,7 @@ export default function(p) {
                 p.fill(255-(i*(255/numParticles)),255,(i*(255/numParticles)),(i*(255/numParticles)));
                 x.hasEyes = i === this.particles.length-1;
                 x.hasEyes === true ? p.stroke(200) : p.noStroke();
-                x.eyeOffset = 4;
+                x.eyeOffset = getRandomInt(5,20);
                 return x.draw();
             })
         };
@@ -97,14 +97,12 @@ export default function(p) {
         }
     };
 
-    let Particle = function(x, y, size=50) {
+    let Particle = function(x, y, size=50, eyeOffset=10) {
         this.locX = x;
         this.locY = y;
         this.size = size;
         this.hasEyes = false;
-        this.eyeOffset = null;
-        let leftOffset = this.eyeOffset || getRandomInt(5,20);
-        let rightOffset = this.eyeOffset || getRandomInt(5,20);
+        this.eyeOffset = eyeOffset;
 
         this.draw = function(){
             p.ellipse(this.locX, this.locY, this.size, this.size+30);
@@ -123,8 +121,8 @@ export default function(p) {
                 p.ellipse(this.locX+10, this.locY, 15);
                 //pupil
                 p.fill(0);
-                p.ellipse(this.locX-leftOffset, this.locY, 5);
-                p.ellipse(this.locX+rightOffset, this.locY+1, 5);
+                p.ellipse(this.locX-this.eyeOffset, this.locY, 5);
+                p.ellipse(this.locX+this.eyeOffset, this.locY+1, 5);
                 //beak
                 p.fill(255,255,0);
                 p.ellipse(this.locX, this.locY+5, 5, 7);
