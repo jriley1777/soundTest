@@ -28,7 +28,7 @@ export default function(p) {
 
         micLevel = mic.getLevel()*-10000;
 
-        if(micLevel < -250) {
+        if(micLevel < -200) {
             if(pFields.length < 50){
                 pFields.push(new ParticleField(10,getRandomInt(-window.innerWidth,window.innerWidth),0));
             }
@@ -43,7 +43,7 @@ export default function(p) {
             p.fill(20);
             p.noStroke();
             p.text("ummm....", window.innerWidth-701, 150);
-            p.text("honey, what's wrong with their eyes?", window.innerWidth-701, 200);
+            p.text("is this too many birds?", window.innerWidth-701, 200);
         }
         if(pFields.length > 20){
             p.text("BIRD", 60, 300);
@@ -75,11 +75,12 @@ export default function(p) {
 
         let cursor = new Particle(p.mouseX, p.mouseY);
         cursor.hasEyes = true;
+        cursor.eyeOffset = 15;
         cursor.draw();
         p.textSize(10);
         p.fill(0);
         if(pFields.length <= 10) {
-            p.text('birds love music', p.mouseX + 10, p.mouseY + 20);
+            p.text('birds love music', p.mouseX, p.mouseY + 20);
         } else if(pFields.length > 10 && pFields.length <= 20) {
             p.text("maybe don't go too crazy", p.mouseX + 10, p.mouseY + 20);
         } else if(pFields.length > 20) {
@@ -101,7 +102,7 @@ export default function(p) {
                 p.fill(255-(i*(255/numParticles)),255,(i*(255/numParticles)),(i*(255/numParticles)));
                 x.hasEyes = i === this.particles.length-1;
                 x.hasEyes === true ? p.stroke(200) : p.noStroke();
-                x.eyeOffset = getRandomInt(5,20);
+                x.eyeOffset = p.constrain(mic.getLevel()*5000, 10, 20);
                 return x.draw();
             })
         };
