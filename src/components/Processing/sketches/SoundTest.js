@@ -85,6 +85,8 @@ export default function(p) {
         } else if(pFields.length > 20) {
             p.text("i can't believe you've done this", p.mouseX + 10, p.mouseY + 20);
         }
+
+        p.text("joe made this.", window.innerWidth/2 - 50, window.innerHeight-20);
     };
 
     p.mouseMoved = function(){ p.getAudioContext().resume() };
