@@ -17,7 +17,7 @@ export default function(p) {
         h = p.max(window.innerHeight);
         p.createCanvas(w, h);
         p.frameRate(60);
-        pFields = Array(10).fill(1).map(x => new ParticleField(10,getRandomInt(-window.innerWidth,window.innerWidth),0));
+        pFields = Array(10).fill(1).map(x => new ParticleField(10,getRandomInt(-window.innerWidth/2,window.innerWidth/2),0));
 
         mic = new p5.AudioIn();
         mic.start();
@@ -31,7 +31,7 @@ export default function(p) {
 
         if(micLevel < -200) {
             if(pFields.length < 50){
-                pFields.push(new ParticleField(10,getRandomInt(-window.innerWidth,window.innerWidth),0));
+                pFields.push(new ParticleField(10,getRandomInt(-window.innerWidth/2,window.innerWidth/2),0));
             }
         }
 
@@ -126,24 +126,14 @@ export default function(p) {
         this.size = size;
         this.hasEyes = false;
         this.eyeOffset = eyeOffset;
-        this.poops = [];
 
         this.draw = function(){
             p.ellipse(this.locX, this.locY, this.size, this.size+30);
             this.drawEyes();
-            this.poops.map(x => {
-                return x.location.y > window.innerHeight - 20 ? x.shift() : x.draw();
-            });
-            this.handlePoop();
         };
         this.update = function(x, y) {
             this.locX = x;
             this.locY = y;
-        };
-        this.handlePoop = function() {
-            if(mic.getLevel()*10000 > 50){
-                this.poops.push(new Poop(this.locX,this.locY));
-            }
         };
         this.drawEyes = function(){
             if(this.hasEyes){
