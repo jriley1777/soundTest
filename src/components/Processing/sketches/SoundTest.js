@@ -73,6 +73,15 @@ export default function(p) {
         let cursor = new Particle(p.mouseX, p.mouseY);
         cursor.hasEyes = true;
         cursor.draw();
+        p.textSize(10);
+        p.fill(0);
+        if(pFields.length <= 10) {
+            p.text('make some noise, friend', p.mouseX + 10, p.mouseY + 20);
+        } else if(pFields.length > 10 && pFields.length <= 20) {
+            p.text('yeah, go on with your self', p.mouseX + 10, p.mouseY + 20);
+        } else if(pFields.length > 20) {
+            p.text("i can't believe you've done this", p.mouseX + 10, p.mouseY + 20);
+        }
     };
 
     p.mouseMoved = function(){ p.getAudioContext().resume() };
