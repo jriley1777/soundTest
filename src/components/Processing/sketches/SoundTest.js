@@ -10,6 +10,7 @@ export default function(p) {
     let pFields = [];
     let mic;
     let micLevel;
+    let poops = [];
 
     p.setup = function() {
         w = p.max(window.innerWidth);
@@ -52,8 +53,8 @@ export default function(p) {
             p.textSize(40);
             p.fill(255,0,0);
             p.noStroke();
-            p.text("whoop whoop,", window.innerWidth-600, 200);
-            p.text("SOUND THE ALARMS!!", window.innerWidth-600, 200);
+            p.text("whoop whoop,", window.innerWidth-400, 150);
+            p.text("ring the alarms!!", window.innerWidth-400, 200);
         } else if(pFields.length <= 10) {
             p.textSize(40);
             p.fill(20);
@@ -88,6 +89,13 @@ export default function(p) {
         }
 
         p.text("joe made this.", window.innerWidth/2 - 50, window.innerHeight-20);
+        poops.map(x => {
+            return x.location.y > window.innerHeight-20 ? poops.shift() : x.draw();
+        });
+    };
+
+    p.mousePressed = function(){
+        poops.push(new Poop());
     };
 
     p.mouseMoved = function(){ p.getAudioContext().resume() };
@@ -118,14 +126,24 @@ export default function(p) {
         this.size = size;
         this.hasEyes = false;
         this.eyeOffset = eyeOffset;
+        this.poops = [];
 
         this.draw = function(){
             p.ellipse(this.locX, this.locY, this.size, this.size+30);
             this.drawEyes();
+            this.poops.map(x => {
+                return x.location.y > window.innerHeight - 20 ? x.shift() : x.draw();
+            });
+            this.handlePoop();
         };
         this.update = function(x, y) {
             this.locX = x;
             this.locY = y;
+        };
+        this.handlePoop = function() {
+            if(mic.getLevel()*10000 > 50){
+                this.poops.push(new Poop(this.locX,this.locY));
+            }
         };
         this.drawEyes = function(){
             if(this.hasEyes){
@@ -155,5 +173,21 @@ export default function(p) {
                 p.ellipse(this.locX+3-xOffset, this.locY+yOffset, 5, 7);
             }
         }
+    };
+
+    let Poop = function(locX=p.mouseX, locY=p.mouseY+50) {
+        this.locX = locX;
+        this.locY = locY;
+        this.location = p.createVector(this.locX, this.locY);
+
+        this.draw = function(){
+            p.fill(200);
+            p.ellipse(this.location.x, this.location.y, 2, 5);
+            this.update();
+        };
+        this.update = function(){
+            this.location.y += 10;
+        };
+
     }
 }
