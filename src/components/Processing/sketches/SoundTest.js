@@ -27,7 +27,7 @@ export default function(p) {
         p.background(255);
         p.noCursor();
 
-        micLevel = mic.getLevel()*-10000;
+        micLevel = mic.getLevel()*-5000;
 
         if(micLevel < -200) {
             if(pFields.length < 50){
