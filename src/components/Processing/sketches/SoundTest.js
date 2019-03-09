@@ -29,7 +29,7 @@ export default function(p) {
 
         micLevel = mic.getLevel()*-1000;
 
-        if(micLevel < -200) {
+        if(micLevel < -50) {
             if(pFields.length < 50){
                 pFields.push(new ParticleField(10,getRandomInt(-window.innerWidth/2,window.innerWidth/2),0));
             }
@@ -110,7 +110,7 @@ export default function(p) {
                 p.fill(255-(i*(255/numParticles)),255,(i*(255/numParticles)),(i*(255/numParticles)));
                 x.hasEyes = i === this.particles.length-1;
                 x.hasEyes === true ? p.stroke(200) : p.noStroke();
-                x.eyeOffset = p.constrain(mic.getLevel()*1000, 10, 20);
+                x.eyeOffset = p.constrain(mic.getLevel()*500, 10, 20);
                 return x.draw();
             })
         };
