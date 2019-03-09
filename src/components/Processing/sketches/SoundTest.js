@@ -17,7 +17,7 @@ export default function(p) {
         h = p.max(window.innerHeight);
         p.createCanvas(w, h);
         p.frameRate(60);
-        pFields = Array(10).fill(1).map(x => new ParticleField(10,getRandomInt(-window.innerWidth/2,window.innerWidth/2),0));
+        pFields = Array(1).fill(1).map(x => new ParticleField(10,getRandomInt(-window.innerWidth/2,window.innerWidth/2),0));
 
         mic = new p5.AudioIn();
         mic.start();
