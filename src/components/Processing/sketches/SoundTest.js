@@ -42,6 +42,7 @@ export default function(p) {
             p.textSize(40);
             p.fill(20);
             p.noStroke();
+            p.text("ummm....", window.innerWidth-701, 150);
             p.text("honey, what's wrong with their eyes?", window.innerWidth-701, 200);
         }
         if(pFields.length > 20){
@@ -51,11 +52,13 @@ export default function(p) {
             p.textSize(40);
             p.fill(255,0,0);
             p.noStroke();
-            p.text("whoop whoop, ring the alarms!!", window.innerWidth-600, 200);
+            p.text("whoop whoop,", window.innerWidth-600, 200);
+            p.text("SOUND THE ALARMS!!", window.innerWidth-600, 200);
         } else if(pFields.length <= 10) {
             p.textSize(40);
             p.fill(20);
-            p.text("what a lovely day", window.innerWidth-600, 200);
+            p.text("what a lovely day,", window.innerWidth-600, 200);
+            p.text("not too many birds around", window.innerWidth-600, 250);
         }
 
         p.stroke(0);
@@ -76,9 +79,9 @@ export default function(p) {
         p.textSize(10);
         p.fill(0);
         if(pFields.length <= 10) {
-            p.text('make some noise, friend', p.mouseX + 10, p.mouseY + 20);
+            p.text('birds love music', p.mouseX + 10, p.mouseY + 20);
         } else if(pFields.length > 10 && pFields.length <= 20) {
-            p.text('yeah, go on with your self', p.mouseX + 10, p.mouseY + 20);
+            p.text("maybe don't go too crazy", p.mouseX + 10, p.mouseY + 20);
         } else if(pFields.length > 20) {
             p.text("i can't believe you've done this", p.mouseX + 10, p.mouseY + 20);
         }
